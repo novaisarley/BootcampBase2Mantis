@@ -18,7 +18,7 @@ Este projeto de automação tem o objetivo de realizar testes automatizados da f
     - Insere o nome de usuário e clica em "Login".
     - Insere a senha e clica em "Login".
 
-2. Cria uma nova tarefa preenchendo todos os campos necessários.
+2. Cria uma nova tarefa.
     - Clica no botão "Report issue".
     - Seleciona campo "Categoria".
     - Anexa uma imagem de erro.

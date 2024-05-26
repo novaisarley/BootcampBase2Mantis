@@ -70,7 +70,7 @@ public class CriarTarefaTests {
         Select reprodutibilidadeSelect = new Select(reprodutibilidadeElement);
         reprodutibilidadeSelect.selectByValue("50");
 
-        //Busca elemento de prioridade e seleciona opção "random"(50)
+        //Busca elemento de prioridade e seleciona opção "low"(20)
         WebElement prioridadeElement = driver.findElement(By.xpath("//*[@id='priority']"));
         Select prioridadeSelect = new Select(prioridadeElement);
         prioridadeSelect.selectByValue("20");

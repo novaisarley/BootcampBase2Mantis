@@ -42,20 +42,19 @@ public class CriarTarefaTests {
         loginButton.click();
     }
 
-    public void criaTarefa(String reprodubilidade, String prioridade, String resumo, String descricao, String passoAPasso, String informacaoAdicional ){
+    public void criaTarefa(String categoria, String reprodubilidade, String prioridade, String resumo, String descricao, String passoAPasso, String informacaoAdicional ){
         //Busca botão de "Reporta issue" e clica
         WebElement criaTarefaBotao = webDriverWait.until(
                 ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='sidebar']/ul/li[3]"))
         );
         criaTarefaBotao.click();
 
-        //Busca elemento de categoria e seleciona opção 1 (categoria teste)
+        //Busca elemento de categoria e seleciona opção
         WebElement categoryElement = webDriverWait.until(
                 ExpectedConditions.elementToBeClickable(By.id("category_id"))
         );
         Select categorySelect = new Select(categoryElement);
-        categorySelect.selectByValue("1");
-
+        categorySelect.selectByVisibleText(categoria);
 
         //Busca elemento de reproducibilidade e seleciona opção "random"(50)
 
@@ -119,7 +118,11 @@ public class CriarTarefaTests {
 
     }
 
-    public boolean validarDadosCriados(String reprodubilidade, String prioridade, String resumo, String descricao, String passoAPasso, String informacaoAdicional){
+    public boolean validarDadosCriados(String categoria, String reprodubilidade, String prioridade, String resumo, String descricao, String passoAPasso, String informacaoAdicional){
+        //pegar a informação dentro do campo: Categoria
+        WebElement categoriaElement = webDriverWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"main-container\"]/div[2]/div[2]/div/div[1]/div/div[2]/div[2]/div/table/tbody/tr[2]/td[3]")));
+        String categoriaElementText = categoriaElement.getText();
+
         //pegar a informação dentro do campo: Frequência
         WebElement reprodubilidadeElement = webDriverWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"main-container\"]/div[2]/div[2]/div/div[1]/div/div[2]/div[2]/div/table/tbody/tr[6]/td[3]")));
         String reprodubilidadeElementText = reprodubilidadeElement.getText();
@@ -145,7 +148,8 @@ public class CriarTarefaTests {
         String informacaoAdicionalElementText = informacaoAdicionalElement.getText();
 
         //Comparar informação extraido com informação esperado pelo parametro
-        boolean statusValidade = reprodubilidadeElementText.equals(reprodubilidade) && prioridadeElementText.equals(prioridade) && resumoElementText.contains(resumo) && descricaoElementText.contains(descricao) && passoAPassoElementText.equals(passoAPasso) && informacaoAdicionalElementText.contains(informacaoAdicional);
+        boolean statusValidade = categoriaElementText.equals(categoria) && reprodubilidadeElementText.equals(reprodubilidade) && prioridadeElementText.equals(prioridade)
+                && resumoElementText.contains(resumo) && descricaoElementText.contains(descricao) && passoAPassoElementText.equals(passoAPasso) && informacaoAdicionalElementText.contains(informacaoAdicional);
 
         return statusValidade;
 
@@ -155,6 +159,7 @@ public class CriarTarefaTests {
     public void criarTarefaComSucesso(){
         driver.manage().window().maximize();
         login("grupoVerde2", "123456");
+        String categoria = "[Todos os Projetos] nova categoria";
         String reprodubilidade ="aleatório";
         String prioridade = "baixa";
         String resumo = "Resumo para reporte de um problema com anexo";
@@ -167,9 +172,9 @@ public class CriarTarefaTests {
                 "5. Selecionar uma frequência";
         String informacaoAdicional = "Informação adicional para reporte de um problema";
 
-        criaTarefa(reprodubilidade, prioridade, resumo, descricao, passoAPasso, informacaoAdicional);
+        criaTarefa(categoria, reprodubilidade, prioridade, resumo, descricao, passoAPasso, informacaoAdicional);
         boolean statusCriacao = foiCriado();
-        boolean statusDados = validarDadosCriados(reprodubilidade, prioridade, resumo, descricao, passoAPasso, informacaoAdicional);
+        boolean statusDados = validarDadosCriados(categoria, reprodubilidade, prioridade, resumo, descricao, passoAPasso, informacaoAdicional);
 
         driver.quit();
 
